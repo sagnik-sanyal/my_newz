@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../app/constants/spacings.dart';
+import '../../../app/constants/ui_constants.dart';
 import '../../../shared/extensions/widget_ext.dart';
 
 @immutable

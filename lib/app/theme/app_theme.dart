@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/app_colors.dart';
+import '../constants/ui_constants.dart';
 import 'color_scheme.dart';
 
 sealed class AppTheme {
@@ -35,7 +36,7 @@ sealed class AppTheme {
           disabledForegroundColor: Colors.white,
           disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
         ),
@@ -52,6 +53,34 @@ sealed class AppTheme {
         hintStyle: const TextStyle(color: AppColors.grey, fontSize: 14),
         fillColor: scheme.surface,
         suffixIconColor: AppColors.primary,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 14,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          borderSide: BorderSide(color: scheme.primary),
+          gapPadding: 10,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          gapPadding: 10,
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          gapPadding: 10,
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          gapPadding: 10,
+        ),
       ),
     );
   }
