@@ -24,7 +24,15 @@ sealed class AppTheme {
         platform: defaultTargetPlatform,
       ),
       primaryColor: scheme.primary,
-      appBarTheme: const AppBarTheme(elevation: 0, scrolledUnderElevation: 0),
+      appBarTheme: const AppBarTheme(
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        titleTextStyle: TextStyle(
+          color: AppColors.primary,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
       primaryTextTheme: GoogleFonts.poppinsTextTheme(),
       textTheme: GoogleFonts.poppinsTextTheme(),
       elevatedButtonTheme: ElevatedButtonThemeData(

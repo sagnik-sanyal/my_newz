@@ -4,6 +4,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import '../../../app/constants/app_colors.dart';
 import '../../../app/constants/ui_constants.dart';
 import '../../../shared/extensions/widget_ext.dart';
+import '../../../shared/widgets/app_text.dart';
 import '../../../shared/widgets/loading_button.dart';
 import '../widgets/email_field.dart';
 import '../widgets/password_field.dart';
@@ -31,7 +32,9 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(
+        title: AppText.bold('MyNews', color: AppColors.primary, fontSize: 20),
+      ),
       body: ReactiveFormBuilder(
         form: _buildForm,
         builder: (_, __, Widget? child) => GestureDetector(
@@ -41,16 +44,17 @@ class LoginScreen extends StatelessWidget {
               Expanded(child: _buildFields()),
               _buildButton(),
               const Padding(
-                padding: EdgeInsets.only(top: kVerticalSpace / 2),
+                padding: EdgeInsets.only(top: vPadding / 1.5),
                 child: Text.rich(
                   TextSpan(
-                    text: "Don't have an account? ",
+                    text: 'New here? ',
+                    style: TextStyle(fontWeight: FontWeight.w400),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Register',
                         style: TextStyle(
                           color: AppColors.primary,
-                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -60,26 +64,19 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
-      ).addPadding(
-        const EdgeInsets.symmetric(
-          horizontal: kHorizontalSpace,
-          vertical: kVerticalSpace,
-        ),
-      ),
+      ).addPadding(),
     );
   }
 
   /// Builds the fields required for the form
   SingleChildScrollView _buildFields() {
     return const SingleChildScrollView(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            EmailField(controlName: 'email'),
-            SizedBox(height: 30),
-            PasswordField(controlName: 'password'),
-          ],
-        ),
+      child: Column(
+        children: <Widget>[
+          EmailField(controlName: 'email'),
+          SizedBox(height: 30),
+          PasswordField(controlName: 'password'),
+        ],
       ),
     );
   }
@@ -87,10 +84,17 @@ class LoginScreen extends StatelessWidget {
   /// Builds the register button
   ReactiveFormConsumer _buildButton() {
     return ReactiveFormConsumer(
-      builder: (_, FormGroup form, __) => LoadingButton(
+      child: const Text('Login'),
+      builder: (_, FormGroup form, Widget? child) => LoadingButton(
         onPressed: form.valid ? () {} : null,
-        isLoading: true,
-        child: const Text('Login'),
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(220, 49),
+          backgroundColor: AppColors.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: child,
       ),
     );
   }
