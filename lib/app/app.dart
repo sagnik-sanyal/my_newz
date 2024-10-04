@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/auth/screens/login_screen.dart';
+import '../features/news_feed/screens/news_feed_screen.dart';
 import 'theme/app_theme.dart';
 
 @immutable
@@ -12,11 +12,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.use(Brightness.light),
       debugShowCheckedModeBanner: false,
-      home: MediaQuery.withClampedTextScaling(
-        maxScaleFactor: 1,
-        minScaleFactor: 0.9,
-        child: const LoginScreen(),
-      ),
+      home: MediaQuery.withNoTextScaling(child: const NewsFeedScreen()),
     );
   }
 }
