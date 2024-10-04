@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/feed/counter.dart';
+import '../features/auth/screens/login_screen.dart';
 import 'theme/app_theme.dart';
 
 @immutable
@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: AppTheme.use(Brightness.light),
-      home: const CounterPage(),
+      home: const LoginScreen(),
     );
   }
 }
