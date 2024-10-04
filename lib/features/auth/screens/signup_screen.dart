@@ -54,24 +54,29 @@ class SignupScreen extends StatelessWidget {
             children: <Widget>[
               Expanded(child: _buildFields()),
               _buildButton(),
-              const Text.rich(
-                TextSpan(
-                  text: 'Already have an account? ',
-                  style: TextStyle(fontWeight: FontWeight.w400),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Login',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ).padding(const EdgeInsets.only(top: vPadding / 1.5)),
+              _buildFooter().padding(const EdgeInsets.only(top: vPadding - 4)),
             ],
           ).padding(),
         ),
+      ),
+    );
+  }
+
+  /// Builds the footer text
+  Text _buildFooter() {
+    return const Text.rich(
+      TextSpan(
+        text: 'Already have an account? ',
+        style: TextStyle(fontWeight: FontWeight.w400),
+        children: <TextSpan>[
+          TextSpan(
+            text: 'Login',
+            style: TextStyle(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ),
     );
   }
