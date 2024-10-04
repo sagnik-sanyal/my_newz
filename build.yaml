@@ -1,0 +1,37 @@
+targets:
+  $default:
+    builders:
+      source_gen:combining_builder:
+        enabled: true
+        options:
+          build_extensions:
+            '^lib/{{dir}}/{{file}}.dart': 'lib/{{dir}}/gen/{{file}}.g.dart'
+      json_serializable:
+        enabled: true
+        options:
+          create_factory: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: true
+          ignore_unannotated: false
+          include_if_null: false
+        generate_for:
+          include:
+            - lib/features/**/data/models/*.dart
+      freezed:
+        options:
+          from_json: false
+          to_json: false
+          generate_for:
+            include:
+              - lib/features/**/data/models/*.dart
+          build_extensions:
+            '^lib/{{dir}}/{{file}}.dart': 'lib/{{dir}}/gen/{{file}}.freezed.dart'
+      flutter_gen:
+        enabled: true
+        generate_for:
+          - pubspec.yaml
+      
+
+
+            
