@@ -17,14 +17,14 @@ targets:
           include_if_null: false
         generate_for:
           include:
-            - lib/features/**/data/models/*.dart
+            - lib/core/models/*.dart
       freezed:
         options:
           from_json: false
           to_json: false
           generate_for:
             include:
-              - lib/features/**/data/models/*.dart
+              - lib/core/models/*.dart
           build_extensions:
             '^lib/{{dir}}/{{file}}.dart': 'lib/{{dir}}/gen/{{file}}.freezed.dart'
       flutter_gen:
