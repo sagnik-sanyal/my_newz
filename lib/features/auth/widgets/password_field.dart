@@ -19,7 +19,7 @@ class PasswordField extends StatelessWidget {
   final String? controlName;
   final FormControl<String>? formControl;
 
-  static final RegExp regex = RegExp(r'^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]$');
+  static final RegExp regex = RegExp('(?=.*[0-9a-zA-Z])');
 
   @override
   Widget build(BuildContext context) {

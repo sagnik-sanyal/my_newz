@@ -4,6 +4,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import '../../../app/constants/app_colors.dart';
 import '../../../app/constants/ui_constants.dart';
 import '../../../shared/extensions/widget_ext.dart';
+import '../../../shared/widgets/loading_button.dart';
 import '../widgets/email_field.dart';
 import '../widgets/password_field.dart';
 
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
       'password': FormControl<String>(
         validators: <Validator<Object?>>[
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(6),
           Validators.pattern(PasswordField.regex),
         ],
       ),
@@ -37,19 +38,24 @@ class LoginScreen extends StatelessWidget {
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Column(
             children: <Widget>[
-              Expanded(
-                child: ListView(
-                  children: const <Widget>[
-                    EmailField(controlName: 'email'),
-                    SizedBox(height: kVerticalSpace),
-                    PasswordField(controlName: 'password'),
-                  ],
-                ),
-              ),
+              Expanded(child: _buildFields()),
               _buildButton(),
-              Padding(
-                padding: const EdgeInsets.only(top: kVerticalSpace / 2),
-                child: _buildRegisterMsg(),
+              const Padding(
+                padding: EdgeInsets.only(top: kVerticalSpace / 2),
+                child: Text.rich(
+                  TextSpan(
+                    text: "Don't have an account? ",
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Register',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -63,30 +69,28 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  /// Builds the register button
-  ReactiveFormConsumer _buildButton() {
-    return ReactiveFormConsumer(
-      builder: (_, FormGroup form, __) => ElevatedButton(
-        onPressed: form.valid ? () {} : null,
-        child: const Text('Login'),
+  /// Builds the fields required for the form
+  SingleChildScrollView _buildFields() {
+    return const SingleChildScrollView(
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            EmailField(controlName: 'email'),
+            SizedBox(height: 30),
+            PasswordField(controlName: 'password'),
+          ],
+        ),
       ),
     );
   }
 
-  /// Creates the register message
-  Text _buildRegisterMsg() {
-    return const Text.rich(
-      TextSpan(
-        text: "Don't have an account? ",
-        children: <TextSpan>[
-          TextSpan(
-            text: 'Register',
-            style: TextStyle(
-              color: AppColors.primary,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ],
+  /// Builds the register button
+  ReactiveFormConsumer _buildButton() {
+    return ReactiveFormConsumer(
+      builder: (_, FormGroup form, __) => LoadingButton(
+        onPressed: form.valid ? () {} : null,
+        isLoading: true,
+        child: const Text('Login'),
       ),
     );
   }

@@ -51,37 +51,29 @@ sealed class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         hintStyle: const TextStyle(color: AppColors.grey, fontSize: 14),
-        fillColor: scheme.surface,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         suffixIconColor: AppColors.primary,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 14,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-          borderSide: BorderSide(color: scheme.primary),
-          gapPadding: 10,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-          gapPadding: 10,
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-          gapPadding: 10,
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius),
-          gapPadding: 10,
-        ),
+        border: _createBorder(),
+        focusedBorder: _createBorder(),
+        enabledBorder: _createBorder(),
+        disabledBorder: _createBorder(),
+        errorBorder: _createBorder(),
+        focusedErrorBorder: _createBorder(),
       ),
+    );
+  }
+
+  /// Create the border for the input decoration
+  static OutlineInputBorder _createBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(kBorderRadius),
+      borderSide: BorderSide.none,
+      gapPadding: 10,
     );
   }
 }
