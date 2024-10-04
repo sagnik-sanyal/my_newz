@@ -7,4 +7,12 @@ extension BuildContextX on BuildContext {
 
   /// TextScaler from the context
   TextScaler get textScaler => MediaQuery.textScalerOf(this);
+
+  /// Navigate to a new route
+  void push<T>(Widget page) {
+    Navigator.of(this).push<T>(MaterialPageRoute<T>(builder: (_) => page));
+  }
+
+  /// Pop the current route
+  void pop<T>([T? result]) => Navigator.of(this).pop<T>(result);
 }

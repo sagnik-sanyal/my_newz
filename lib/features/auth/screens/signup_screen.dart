@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../app/constants/app_colors.dart';
+import '../../../app/constants/ui_constants.dart';
 import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
 import '../widgets/email_field.dart';
@@ -42,6 +43,7 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: AppText.bold('MyNews', color: AppColors.primary, fontSize: 20),
       ),
       body: ReactiveFormBuilder(
@@ -52,8 +54,23 @@ class SignupScreen extends StatelessWidget {
             children: <Widget>[
               Expanded(child: _buildFields()),
               _buildButton(),
+              const Text.rich(
+                TextSpan(
+                  text: 'Already have an account? ',
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Login',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ).padding(const EdgeInsets.only(top: vPadding / 1.5)),
             ],
-          ).addPadding(),
+          ).padding(),
         ),
       ),
     );
@@ -78,7 +95,7 @@ class SignupScreen extends StatelessWidget {
           const NameField(controlName: 'name'),
           const EmailField(controlName: 'email'),
           const PasswordField(controlName: 'password'),
-        ].addSpacing(30),
+        ].addSpacing(25),
       ),
     );
   }

@@ -3,11 +3,13 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../app/constants/app_colors.dart';
 import '../../../app/constants/ui_constants.dart';
+import '../../../shared/extensions/context_ext.dart';
 import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
 import '../../../shared/widgets/loading_button.dart';
 import '../widgets/email_field.dart';
 import '../widgets/password_field.dart';
+import 'signup_screen.dart';
 
 @immutable
 class LoginScreen extends StatelessWidget {
@@ -33,6 +35,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: AppText.bold('MyNews', color: AppColors.primary, fontSize: 20),
       ),
       body: ReactiveFormBuilder(
@@ -43,40 +46,36 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               Expanded(child: _buildFields()),
               _buildButton(),
-              const Padding(
-                padding: EdgeInsets.only(top: vPadding / 1.5),
-                child: Text.rich(
-                  TextSpan(
-                    text: 'New here? ',
-                    style: TextStyle(fontWeight: FontWeight.w400),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Register',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
-                        ),
+              const Text.rich(
+                TextSpan(
+                  text: 'New here? ',
+                  style: TextStyle(fontWeight: FontWeight.w400),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Register',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
+              ).padding(const EdgeInsets.only(top: vPadding / 1.5)),
             ],
           ),
         ),
-      ).addPadding(),
+      ).padding(),
     );
   }
 
   /// Builds the fields required for the form
   SingleChildScrollView _buildFields() {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          EmailField(controlName: 'email'),
-          SizedBox(height: 30),
-          PasswordField(controlName: 'password'),
-        ],
+          const EmailField(controlName: 'email'),
+          const PasswordField(controlName: 'password'),
+        ].addSpacing(25),
       ),
     );
   }
@@ -85,17 +84,21 @@ class LoginScreen extends StatelessWidget {
   ReactiveFormConsumer _buildButton() {
     return ReactiveFormConsumer(
       child: const Text('Login'),
-      builder: (_, FormGroup form, Widget? child) => LoadingButton(
-        onPressed: form.valid ? () {} : null,
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(220, 49),
-          backgroundColor: AppColors.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+      builder: (BuildContext cxt, FormGroup form, Widget? text) {
+        final bool isValid = form.valid;
+        return LoadingButton(
+          onPressed:
+              !isValid ? () => cxt.push<void>(const SignupScreen()) : null,
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(220, 49),
+            backgroundColor: AppColors.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
-        ),
-        child: child,
-      ),
+          child: text,
+        );
+      },
     );
   }
 }

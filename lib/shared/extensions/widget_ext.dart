@@ -19,7 +19,7 @@ extension ListWidgetX on List<Widget> {
 /// Extension methods for the [Widget] class
 extension WidgetX on Widget {
   /// Adds padding to the widget
-  Padding addPadding([EdgeInsetsGeometry? padding]) {
+  Padding padding([EdgeInsetsGeometry? padding]) {
     return Padding(
       padding: padding ??
           const EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
