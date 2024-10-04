@@ -26,4 +26,13 @@ extension WidgetX on Widget {
       child: this,
     );
   }
+
+  /// Adds sliver padding to the widget
+  SliverPadding sliverPadding([EdgeInsetsGeometry? padding]) {
+    return SliverPadding(
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
+      sliver: this,
+    );
+  }
 }
