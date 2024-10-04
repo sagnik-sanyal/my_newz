@@ -12,7 +12,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.use(Brightness.light),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1,
+        minScaleFactor: 0.9,
+        child: const LoginScreen(),
+      ),
     );
   }
 }

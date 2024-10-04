@@ -28,12 +28,14 @@ sealed class AppTheme {
       textTheme: GoogleFonts.poppinsTextTheme(),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
+          minimumSize: const Size(180, 49),
           disabledForegroundColor: Colors.white,
           disabledBackgroundColor: AppColors.primary.withOpacity(0.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(36),
+            borderRadius: BorderRadius.circular(10),
           ),
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
         ),
