@@ -19,6 +19,15 @@ sealed class Article with _$Article {
 
   factory Article.fromJson(Map<String, Object?> json) =>
       _$ArticleFromJson(json);
+
+  /// Convert a list of JSON objects to a list of Article objects
+  static List<Article> parseList(Object? json) {
+    return switch (json) {
+      final List<Object?> items =>
+        items.cast<Map<String, Object?>>().map(Article.fromJson).toList(),
+      _ => <Article>[],
+    };
+  }
 }
 
 @freezed
