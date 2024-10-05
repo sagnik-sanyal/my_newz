@@ -17,7 +17,7 @@ final class ApiService {
     dio.options.headers = <String, String>{'X-Api-Key': apiKey};
     dio.transformer = BackgroundTransformer();
     dio.interceptors.addAll(<Interceptor>[
-      LogInterceptor(responseBody: true),
+      LogInterceptor(responseBody: true, requestBody: true),
       // DioCacheInterceptor(options: ObjectBoxCacheStore().addOptions()),
     ]);
   }

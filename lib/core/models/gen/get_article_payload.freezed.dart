@@ -166,7 +166,7 @@ class __$$GetArticlePayloadImplCopyWithImpl<$Res>
 
 class _$GetArticlePayloadImpl extends _GetArticlePayload {
   const _$GetArticlePayloadImpl(
-      {this.country = 'in',
+      {this.country = 'us',
       this.category,
       this.sources,
       this.query,

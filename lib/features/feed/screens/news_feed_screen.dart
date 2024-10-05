@@ -13,24 +13,54 @@ import '../provider/feed_notifier.dart';
 import '../widgets/feed_item.dart';
 
 @immutable
-class NewsFeedScreen extends StatelessWidget {
+class NewsFeedScreen extends StatefulWidget {
   /// Creates [NewsFeedScreen] instance
   const NewsFeedScreen({super.key});
+
+  @override
+  State<NewsFeedScreen> createState() => _NewsFeedScreenState();
+}
+
+class _NewsFeedScreenState extends State<NewsFeedScreen> {
+  late final ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedNotifier>(
       create: (_) => FeedNotifier()..init(),
       child: SliverToBoxAdapter(
-        child: AppText.medium('Top Headlines', fontSize: 18).padding(),
+        child: AppText.bold('Top Headlines', fontSize: 14).padding(),
       ),
       builder: (BuildContext context, Widget? child) => Scaffold(
-        body: CustomScrollView(
-          slivers: <Widget>[
-            _buildAppbar(),
-            child!,
-            _buildList().sliverPadding(),
-          ],
+        body: NotificationListener<ScrollEndNotification>(
+          onNotification: (ScrollEndNotification details) {
+            final double maxExtent = _controller.position.maxScrollExtent;
+            final double currentExtent = _controller.position.pixels;
+            if (maxExtent - currentExtent > 150) return true;
+            // context.read<FeedNotifier>().loadMore();
+            log('Load more');
+            return true;
+          },
+          child: CustomScrollView(
+            controller: _controller,
+            slivers: <Widget>[
+              _buildAppbar(),
+              child!,
+              _buildList().sliverPadding(),
+            ],
+          ),
         ),
       ),
     );
@@ -41,12 +71,11 @@ class NewsFeedScreen extends StatelessWidget {
     return Selector<FeedNotifier, AsyncValue<PaginatedResult<Article>>>(
       selector: (_, FeedNotifier notifier) => notifier.state,
       builder: (_, AsyncValue<PaginatedResult<Article>> state, __) {
-        log('State: $state');
         return SliverFixedExtentList.builder(
-          itemExtent: 140,
+          itemExtent: 150,
           itemCount: state.valueOrNull?.results.length ?? 0,
           itemBuilder: (_, int i) => Padding(
-            padding: EdgeInsets.only(bottom: 10, top: i != 0 ? 10 : 0),
+            padding: EdgeInsets.only(bottom: 10, top: i == 0 ? 0 : 10),
             child: Provider<Article>(
               create: (_) => state.requireValue.results[i],
               child: const FeedItem(),

@@ -7,7 +7,7 @@ part 'gen/get_article_payload.g.dart';
 @JsonSerializable()
 sealed class GetArticlePayload with _$GetArticlePayload {
   const factory GetArticlePayload({
-    @Default('in') String country,
+    @Default('us') String country,
     String? category,
     String? sources,
     String? query,

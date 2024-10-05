@@ -202,7 +202,7 @@ class __$$ArticleImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ArticleImpl implements _Article {
+class _$ArticleImpl extends _Article {
   const _$ArticleImpl(
       {required this.source,
       this.author,
@@ -211,7 +211,8 @@ class _$ArticleImpl implements _Article {
       this.url,
       this.publishedAt,
       this.urlToImage,
-      this.content});
+      this.content})
+      : super._();
 
   @override
   final Source source;
@@ -266,7 +267,7 @@ class _$ArticleImpl implements _Article {
       __$$ArticleImplCopyWithImpl<_$ArticleImpl>(this, _$identity);
 }
 
-abstract class _Article implements Article {
+abstract class _Article extends Article {
   const factory _Article(
       {required final Source source,
       final String? author,
@@ -276,6 +277,7 @@ abstract class _Article implements Article {
       final DateTime? publishedAt,
       final String? urlToImage,
       final String? content}) = _$ArticleImpl;
+  const _Article._() : super._();
 
   @override
   Source get source;

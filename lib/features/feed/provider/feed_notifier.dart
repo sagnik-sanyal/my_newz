@@ -17,10 +17,18 @@ final class FeedNotifier
   /// Instance of [ArticleService] to encapsulate
   late final ArticleService _service;
 
+  String _country = 'us';
+  String get country => _country;
+  set country(String value) {
+    _country = value;
+    init();
+    notifyListeners();
+  }
+
   /// Load Feed items for the first time
-  Future<void> init({String country = 'in'}) async {
+  Future<void> init() async {
     state = const AsyncLoading<PaginatedResult<Article>>();
-    final GetArticlePayload payload = GetArticlePayload(country: country);
+    final GetArticlePayload payload = GetArticlePayload(country: _country);
     final Result<PaginatedResult<Article>> result =
         await _service.getHeadlines(payload);
     state = result.when(
