@@ -7,14 +7,14 @@ part of '../country_model.dart';
 // **************************************************************************
 
 Country _$CountryFromJson(Map<String, dynamic> json) => Country(
-      name: json['name'] as String,
+      name: json['countryName'] as String,
       code: json['code'] as String,
-      flagUrl: json['flagUrl'] as String?,
+      flag: json['flag'] as String?,
     );
 
 Map<String, dynamic> _$CountryToJson(Country instance) {
   final val = <String, dynamic>{
-    'name': instance.name,
+    'countryName': instance.name,
     'code': instance.code,
   };
 
@@ -24,6 +24,6 @@ Map<String, dynamic> _$CountryToJson(Country instance) {
     }
   }
 
-  writeNotNull('flagUrl', instance.flagUrl);
+  writeNotNull('flag', instance.flag);
   return val;
 }

@@ -16,9 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Country {
+  @JsonKey(name: 'countryName')
   String get name => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
-  String? get flagUrl => throw _privateConstructorUsedError;
+  String? get flag => throw _privateConstructorUsedError;
 
   /// Create a copy of Country
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,8 @@ abstract class $CountryCopyWith<$Res> {
   factory $CountryCopyWith(Country value, $Res Function(Country) then) =
       _$CountryCopyWithImpl<$Res, Country>;
   @useResult
-  $Res call({String name, String code, String? flagUrl});
+  $Res call(
+      {@JsonKey(name: 'countryName') String name, String code, String? flag});
 }
 
 /// @nodoc
@@ -51,7 +53,7 @@ class _$CountryCopyWithImpl<$Res, $Val extends Country>
   $Res call({
     Object? name = null,
     Object? code = null,
-    Object? flagUrl = freezed,
+    Object? flag = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -62,9 +64,9 @@ class _$CountryCopyWithImpl<$Res, $Val extends Country>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      flagUrl: freezed == flagUrl
-          ? _value.flagUrl
-          : flagUrl // ignore: cast_nullable_to_non_nullable
+      flag: freezed == flag
+          ? _value.flag
+          : flag // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -77,7 +79,8 @@ abstract class _$$CountryImplCopyWith<$Res> implements $CountryCopyWith<$Res> {
       __$$CountryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String code, String? flagUrl});
+  $Res call(
+      {@JsonKey(name: 'countryName') String name, String code, String? flag});
 }
 
 /// @nodoc
@@ -95,7 +98,7 @@ class __$$CountryImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? code = null,
-    Object? flagUrl = freezed,
+    Object? flag = freezed,
   }) {
     return _then(_$CountryImpl(
       name: null == name
@@ -106,9 +109,9 @@ class __$$CountryImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      flagUrl: freezed == flagUrl
-          ? _value.flagUrl
-          : flagUrl // ignore: cast_nullable_to_non_nullable
+      flag: freezed == flag
+          ? _value.flag
+          : flag // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -117,19 +120,23 @@ class __$$CountryImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CountryImpl extends _Country {
-  const _$CountryImpl({required this.name, required this.code, this.flagUrl})
+  const _$CountryImpl(
+      {@JsonKey(name: 'countryName') required this.name,
+      required this.code,
+      this.flag})
       : super._();
 
   @override
+  @JsonKey(name: 'countryName')
   final String name;
   @override
   final String code;
   @override
-  final String? flagUrl;
+  final String? flag;
 
   @override
   String toString() {
-    return 'Country(name: $name, code: $code, flagUrl: $flagUrl)';
+    return 'Country(name: $name, code: $code, flag: $flag)';
   }
 
   @override
@@ -139,11 +146,11 @@ class _$CountryImpl extends _Country {
             other is _$CountryImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.code, code) || other.code == code) &&
-            (identical(other.flagUrl, flagUrl) || other.flagUrl == flagUrl));
+            (identical(other.flag, flag) || other.flag == flag));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, code, flagUrl);
+  int get hashCode => Object.hash(runtimeType, name, code, flag);
 
   /// Create a copy of Country
   /// with the given fields replaced by the non-null parameter values.
@@ -156,17 +163,18 @@ class _$CountryImpl extends _Country {
 
 abstract class _Country extends Country {
   const factory _Country(
-      {required final String name,
+      {@JsonKey(name: 'countryName') required final String name,
       required final String code,
-      final String? flagUrl}) = _$CountryImpl;
+      final String? flag}) = _$CountryImpl;
   const _Country._() : super._();
 
   @override
+  @JsonKey(name: 'countryName')
   String get name;
   @override
   String get code;
   @override
-  String? get flagUrl;
+  String? get flag;
 
   /// Create a copy of Country
   /// with the given fields replaced by the non-null parameter values.

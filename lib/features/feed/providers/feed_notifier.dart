@@ -1,6 +1,7 @@
 import '../../../core/async_value.dart';
 import '../../../core/models/app_alert_model.dart';
 import '../../../core/models/article_model.dart';
+import '../../../core/models/country_model.dart';
 import '../../../core/models/get_article_payload.dart';
 import '../../../core/models/paginated_result.dart';
 import '../../../core/providers/state_notifier.dart';
@@ -11,25 +12,28 @@ import '../../../core/services/dio/api_service.dart';
 
 final class FeedNotifier
     extends StateNotifier<AsyncValue<PaginatedResult<Article>>> {
-  FeedNotifier() : super(const AsyncLoading<PaginatedResult<Article>>()) {
+  FeedNotifier(Country country)
+      : _country = country,
+        super(const AsyncLoading<PaginatedResult<Article>>()) {
     _service = ArticleService(service: getIt.get<ApiService>());
+    init();
   }
 
   /// Instance of [ArticleService] to encapsulate
   late final ArticleService _service;
+  Country _country;
 
-  String _country = 'us';
-  String get country => _country;
-  set country(String value) {
+  /// Update Country
+  void updateCountry(Country value) {
     _country = value;
-    init();
+    init(refresh: true);
     notifyListeners();
   }
 
   /// Load Feed items for the first time
-  Future<void> init() async {
-    state = const AsyncLoading<PaginatedResult<Article>>();
-    final GetArticlePayload payload = GetArticlePayload(country: _country);
+  Future<void> init({bool refresh = false}) async {
+    if (refresh) state = const AsyncLoading<PaginatedResult<Article>>();
+    final GetArticlePayload payload = GetArticlePayload(country: _country.code);
     final Result<PaginatedResult<Article>> result =
         await _service.getHeadlines(payload);
     state = result.when(
@@ -42,8 +46,27 @@ final class FeedNotifier
   }
 
   /// Load subsequent Feed items on pagination
-  Future<void> loadMore({String country = 'in'}) async {
+  Future<void> loadMore() async {
     final PaginatedResult<Article>? prev = state.valueOrNull;
-    if (prev == null || state.isLoading) return;
+    if (prev == null || !prev.canLoadMore() || state.isLoading) return;
+    state = const AsyncLoading<PaginatedResult<Article>>().copyWithPrevious(
+      state,
+    );
+    final int nextPage = prev.nextPage();
+    final GetArticlePayload payload =
+        GetArticlePayload(country: _country.code, page: nextPage);
+    final Result<PaginatedResult<Article>> result =
+        await _service.getHeadlines(payload);
+    state = result.when(
+      data: (PaginatedResult<Article> data) {
+        return AsyncData<PaginatedResult<Article>>(
+          prev.merge(data.copyWith(currentPage: nextPage)),
+        );
+      },
+      error: (AppAlert alert) => AsyncError<PaginatedResult<Article>>(
+        alert,
+        alert.stackTrace ?? StackTrace.current,
+      ),
+    );
   }
 }

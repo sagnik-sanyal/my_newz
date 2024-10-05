@@ -7,13 +7,28 @@ part 'gen/country_model.g.dart';
 @JsonSerializable()
 sealed class Country with _$Country {
   const factory Country({
-    required String name,
+    @JsonKey(name: 'countryName') required String name,
     required String code,
-    String? flagUrl,
+    String? flag,
   }) = _Country;
 
   const Country._();
 
+  factory Country.india() {
+    return const Country(
+      name: 'India',
+      code: 'in',
+      flag: 'https://flagcdn.com/w320/in.png',
+    );
+  }
+
   factory Country.fromJson(Map<String, Object?> json) =>
       _$CountryFromJson(json);
+
+  /// Default list of countries
+  static List<Map<String, Object?>> defaults() {
+    return <Map<String, Object?>>[Country.india().toJson()];
+  }
+
+  Map<String, Object?> toJson() => _$CountryToJson(this);
 }

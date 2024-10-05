@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 
 import '../../app/typedefs/typedefs.dart';
@@ -11,7 +13,7 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
 
   factory PaginatedResult.fromJson(JSON json, T Function(JSON) fromJsonT) {
     return PaginatedResult<T>(
-      totalResults: json['totalResults']! as int,
+      totalResults: json['totalResults'] as int? ?? 0,
       currentPage: json['currentPage'] as int? ?? 1,
       results: switch (json['articles']) {
         final List<Object?> list => list.cast<JSON>().map(fromJsonT).toList(),
@@ -30,6 +32,9 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
   /// Whether the data is empty
   bool isEmpty() => results.isEmpty;
 
+  /// Next Page
+  int nextPage() => currentPage + 1;
+
   @override
   List<Object> get props => <Object>[totalResults, results];
 
@@ -43,6 +48,15 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
       totalResults: totalItems ?? this.totalResults,
       results: items ?? this.results,
       currentPage: currentPage ?? this.currentPage,
+    );
+  }
+
+  /// Merge two [PaginatedResult] into one
+  PaginatedResult<T> merge(PaginatedResult<T> other) {
+    return PaginatedResult<T>(
+      totalResults: other.totalResults,
+      results: <T>[...results, ...other.results],
+      currentPage: max(currentPage, other.currentPage),
     );
   }
 }

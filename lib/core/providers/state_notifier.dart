@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 /// A [ChangeNotifier] that can be used to manage the state of a widget.
 abstract class StateNotifier<T> with ChangeNotifier {
@@ -25,5 +26,13 @@ abstract class StateNotifier<T> with ChangeNotifier {
   void dispose() {
     _mounted = false;
     super.dispose();
+  }
+}
+
+/// Extension on [ChangeNotifier] to convert to [ChangeNotifierProvider]
+extension ChangeNotifierToProvider<T extends ChangeNotifier> on T {
+  /// Converts the [ChangeNotifier] to a [ChangeNotifierProvider]
+  ChangeNotifierProvider<T> toProvider() {
+    return ChangeNotifierProvider<T>(create: (_) => this);
   }
 }
