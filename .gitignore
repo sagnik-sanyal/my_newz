@@ -46,6 +46,7 @@ unlinked_spec.ds
 **/android/.gradle
 **/android/captures/
 **/android/local.properties
+**/android/**/google-services.json
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
 **/android/.idea/
@@ -111,4 +112,6 @@ app.*.map.json
 !.idea/dictionaries/
 !.idea/runConfigurations/
 
+scripts/*
+lib/environment/firebase/*
 
