@@ -26,8 +26,10 @@ class NameField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.name,
       validationMessages: _buildMessages,
+      autofillHints: const <String>[AutofillHints.name],
       inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.deny(RegExp(r'\s')),
+        LengthLimitingTextInputFormatter(50),
+        FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z\s]*$')),
       ],
     );
   }

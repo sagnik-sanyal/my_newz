@@ -108,7 +108,7 @@ class SignupScreen extends StatelessWidget {
             cxt.select<AuthNotifier, bool>((AuthNotifier n) => n.isSigningUp),
         onPressed: form.invalid
             ? null
-            : () => cxt.read<AuthNotifier>().createUser(form.value),
+            : () => cxt.read<AuthNotifier>().registerUser(form.value, cxt),
         child: const Text('Signup'),
       ),
     );

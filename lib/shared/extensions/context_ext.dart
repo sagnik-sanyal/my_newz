@@ -15,4 +15,12 @@ extension BuildContextX on BuildContext {
 
   /// Pop the current route
   void pop<T>([T? result]) => Navigator.of(this).pop<T>(result);
+
+  /// push and clear existing routes
+  void pushAndRemoveUntil<T>(Widget page) {
+    Navigator.of(this).pushAndRemoveUntil(
+      MaterialPageRoute<T>(builder: (_) => page),
+      (_) => false,
+    );
+  }
 }

@@ -6,24 +6,22 @@ import '../app/typedefs/typedefs.dart';
 import 'models/app_alert_model.dart';
 
 @immutable
-sealed class Result<State> {
+sealed class Result<S> {
   /// The data case
-  const factory Result.data(State state) = ResultData<State>;
+  const factory Result.data(S state) = ResultData<S>;
 
   /// The error case
-  const factory Result.error(AppAlert alert) = ResultError<State>;
+  const factory Result.error(AppAlert alert) = ResultError<S>;
 
   /// Automatically catches errors into a [ResultError] and convert successful
   /// values into a [ResultData].
-  static Result<State> guard<State>(State Function() cb) {
+  static Result<S> guard<S>(S Function() cb) {
     try {
-      return Result<State>.data(cb());
-    } on Exception catch (err, stack) {
-      return Result<State>.error(
-        AppAlert.exception(exception: err, stackTrace: stack),
-      );
-    } catch (err) {
-      return Result<State>.error(
+      return Result<S>.data(cb());
+    } on Exception catch (e, s) {
+      return Result<S>.error(AppAlert.exception(exception: e, stackTrace: s));
+    } catch (_) {
+      return Result<S>.error(
         AppAlert.error(message: 'Something went wrong'),
       );
     }
@@ -31,17 +29,15 @@ sealed class Result<State> {
 
   /// Automatically catches errors into a [ResultError] and convert successful
   /// values into a [ResultData].
-  static FutureResult<State> guardAsync<State>(
-    FutureOr<State> Function() cb,
+  static FutureResult<S> guardAsync<S>(
+    FutureOr<S> Function() cb,
   ) async {
     try {
-      return Result<State>.data(await cb());
-    } on Exception catch (err, stack) {
-      return Result<State>.error(
-        AppAlert.exception(exception: err, stackTrace: stack),
-      );
+      return Result<S>.data(await cb());
+    } on Exception catch (e, s) {
+      return Result<S>.error(AppAlert.exception(exception: e, stackTrace: s));
     } catch (err) {
-      return Result<State>.error(
+      return Result<S>.error(
         AppAlert.error(message: 'Something went wrong'),
       );
     }
@@ -51,56 +47,56 @@ sealed class Result<State> {
   bool get hasState;
 
   /// The state if this is a [ResultData], `null` otherwise.
-  State? get stateOrNull;
+  S? get stateOrNull;
 
   /// The state if this is a [ResultData], throws otherwise.
-  State get requireState;
+  S get requireState;
 
   R map<R>({
-    required R Function(ResultData<State> data) data,
-    required R Function(ResultError<State>) error,
+    required R Function(ResultData<S> data) data,
+    required R Function(ResultError<S>) error,
   });
 
   R when<R>({
-    required R Function(State data) data,
+    required R Function(S data) data,
     required R Function(AppAlert alert) error,
   });
 }
 
 @immutable
-final class ResultData<State> implements Result<State> {
+final class ResultData<S> implements Result<S> {
   /// The data case
   const ResultData(this.state);
 
   /// The state
-  final State state;
+  final S state;
 
   @override
   bool get hasState => true;
 
   @override
-  State? get stateOrNull => state;
+  S? get stateOrNull => state;
 
   @override
-  State get requireState => state;
+  S get requireState => state;
 
   @override
   R map<R>({
-    required R Function(ResultData<State> data) data,
-    required R Function(ResultError<State>) error,
+    required R Function(ResultData<S> data) data,
+    required R Function(ResultError<S>) error,
   }) =>
       data(this);
 
   @override
   R when<R>({
-    required R Function(State data) data,
+    required R Function(S data) data,
     required R Function(AppAlert alert) error,
   }) =>
       data(state);
 
   @override
   bool operator ==(Object other) =>
-      other is ResultData<State> &&
+      other is ResultData<S> &&
       other.runtimeType == runtimeType &&
       other.state == state;
 
@@ -109,7 +105,7 @@ final class ResultData<State> implements Result<State> {
 }
 
 @immutable
-final class ResultError<State> implements Result<State> {
+final class ResultError<S> implements Result<S> {
   /// The error case
   const ResultError(this.alert);
 
@@ -120,10 +116,10 @@ final class ResultError<State> implements Result<State> {
   bool get hasState => false;
 
   @override
-  State? get stateOrNull => null;
+  S? get stateOrNull => null;
 
   @override
-  State get requireState {
+  S get requireState {
     Error.throwWithStackTrace(
       alert.message,
       alert.stackTrace ?? StackTrace.current,
@@ -132,21 +128,21 @@ final class ResultError<State> implements Result<State> {
 
   @override
   R map<R>({
-    required R Function(ResultData<State> data) data,
-    required R Function(ResultError<State>) error,
+    required R Function(ResultData<S> data) data,
+    required R Function(ResultError<S>) error,
   }) =>
       error(this);
 
   @override
   R when<R>({
-    required R Function(State data) data,
+    required R Function(S data) data,
     required R Function(AppAlert alert) error,
   }) =>
       error(this.alert);
 
   @override
   bool operator ==(Object other) =>
-      other is ResultError<State> &&
+      other is ResultError<S> &&
       other.runtimeType == runtimeType &&
       other.alert == alert;
 

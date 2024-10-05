@@ -22,7 +22,7 @@ class App extends StatelessWidget {
           selector: (_, AuthNotifier notifier) => notifier.state,
           builder: (_, User? state, __) {
             if (state == null) return const LoginScreen();
-            return const NewsFeedScreen();
+            return NewsFeedScreen(key: Key(state.uid));
           },
         ),
       ),

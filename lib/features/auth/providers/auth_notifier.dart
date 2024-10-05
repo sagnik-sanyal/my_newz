@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
+import '../../../app/typedefs/typedefs.dart';
 import '../../../core/models/app_alert_model.dart';
 import '../../../core/providers/state_notifier.dart';
 import '../../../core/result.dart';
 import '../../../core/services/auth_service.dart';
+import '../../../shared/extensions/context_ext.dart';
+import '../../feed/screens/news_feed_screen.dart';
 
 class AuthNotifier extends StateNotifier<User?> {
   AuthNotifier() : super(null) {
@@ -43,7 +47,7 @@ class AuthNotifier extends StateNotifier<User?> {
   }
 
   /// Sign up a new user
-  Future<void> createUser(Map<String, Object?> form) async {
+  Future<void> registerUser(JSON form, BuildContext context) async {
     try {
       final String? name = form['name'] as String?;
       final String? email = form['email'] as String?;
@@ -52,13 +56,16 @@ class AuthNotifier extends StateNotifier<User?> {
       _isSigningUp = true;
       notifyListeners();
       final Result<User> user = await _service.signUpUser(
-        name: name,
+        name: name.trim(),
         email: email,
         password: password,
       );
       user.when(
-        data: (User user) => state = user,
-        error: (AppAlert alert) => alert.showToast(),
+        data: (User user) {
+          state = user;
+          context.pushAndRemoveUntil<void>(const NewsFeedScreen());
+        },
+        error: (AppAlert alert) => alert.showToast(context: context),
       );
     } finally {
       _isSigningUp = false;

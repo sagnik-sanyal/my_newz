@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -42,10 +44,10 @@ class AuthService {
       );
       await result.user!.updateDisplayName(name);
       final User user = result.user!;
-      await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .set(<String, String>{'name': name, 'email': email});
+      await _firestore.collection('users').doc(user.uid).set(
+        <String, String>{'name': name, 'email': email},
+        SetOptions(merge: true),
+      );
       return user;
     });
   }
