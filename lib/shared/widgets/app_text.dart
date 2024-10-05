@@ -39,7 +39,7 @@ class AppText extends StatelessWidget {
     String? configKey,
     TextAlign? textAlign,
     int? maxLines,
-    double? fontSize = 15.0,
+    double? fontSize = 14.0,
     TextDecoration decoration = TextDecoration.none,
   }) =>
       AppText._(

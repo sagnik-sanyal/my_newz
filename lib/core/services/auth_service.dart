@@ -19,7 +19,6 @@ class AuthService {
       );
       return Result.guard(() => result.user!);
     } catch (e, stk) {
-      print(e);
       return Result<User>.error(e.toString(), stk);
     }
   }

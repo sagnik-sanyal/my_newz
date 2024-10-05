@@ -9,9 +9,6 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
     this.totalResults = 0,
   });
 
-  /// Empty [PaginatedResult] instance
-  factory PaginatedResult.empty() => PaginatedResult<T>(results: <T>[]);
-
   factory PaginatedResult.fromJson(JSON json, T Function(JSON) fromJsonT) {
     return PaginatedResult<T>(
       totalResults: json['totalResults']! as int,
@@ -29,6 +26,9 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
 
   /// Whether more data can be loaded
   bool canLoadMore() => results.length < totalResults;
+
+  /// Whether the data is empty
+  bool isEmpty() => results.isEmpty;
 
   @override
   List<Object> get props => <Object>[totalResults, results];

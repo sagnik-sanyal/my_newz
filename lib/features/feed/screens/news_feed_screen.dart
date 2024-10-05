@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app/constants/app_colors.dart';
-import '../../../core/async_value.dart';
-import '../../../core/models/article_model.dart';
-import '../../../core/models/paginated_result.dart';
 import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
 import '../provider/feed_notifier.dart';
-import '../widgets/feed_item.dart';
+import '../widgets/feed_async_widget.dart';
 
 @immutable
 class NewsFeedScreen extends StatefulWidget {
@@ -40,9 +37,6 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FeedNotifier>(
       create: (_) => FeedNotifier()..init(),
-      child: SliverToBoxAdapter(
-        child: AppText.bold('Top Headlines', fontSize: 14).padding(),
-      ),
       builder: (BuildContext context, Widget? child) => Scaffold(
         body: NotificationListener<ScrollEndNotification>(
           onNotification: (ScrollEndNotification details) {
@@ -57,32 +51,11 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
             controller: _controller,
             slivers: <Widget>[
               _buildAppbar(),
-              child!,
-              _buildList().sliverPadding(),
+              const FeedAsyncWidget(skipLoadingOnData: true).sliverPadding(),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  /// Builds the list of feed items
-  Selector<FeedNotifier, AsyncValue<PaginatedResult<Article>>> _buildList() {
-    return Selector<FeedNotifier, AsyncValue<PaginatedResult<Article>>>(
-      selector: (_, FeedNotifier notifier) => notifier.state,
-      builder: (_, AsyncValue<PaginatedResult<Article>> state, __) {
-        return SliverFixedExtentList.builder(
-          itemExtent: 150,
-          itemCount: state.valueOrNull?.results.length ?? 0,
-          itemBuilder: (_, int i) => Padding(
-            padding: EdgeInsets.only(bottom: 10, top: i == 0 ? 0 : 10),
-            child: Provider<Article>(
-              create: (_) => state.requireValue.results[i],
-              child: const FeedItem(),
-            ),
-          ),
-        );
-      },
     );
   }
 

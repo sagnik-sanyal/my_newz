@@ -49,11 +49,7 @@ class FeedItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <AppText>[
-        AppText.bold(
-          article.source.name ?? 'Trending',
-          fontSize: 14,
-          maxLines: 1,
-        ),
+        AppText.bold(article.source.name ?? 'Trending', maxLines: 1),
         AppText.regular(
           article.description ?? 'Title',
           maxLines: 4,
