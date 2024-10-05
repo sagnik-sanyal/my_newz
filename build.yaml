@@ -27,10 +27,6 @@ targets:
               - lib/core/models/*.dart
           build_extensions:
             '^lib/{{dir}}/{{file}}.dart': 'lib/{{dir}}/gen/{{file}}.freezed.dart'
-      flutter_gen:
-        enabled: true
-        generate_for:
-          - pubspec.yaml
       
 
 

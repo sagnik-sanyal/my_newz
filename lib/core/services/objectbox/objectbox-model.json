@@ -1,0 +1,154 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6127384436382843854",
+      "lastPropertyId": "9:8877324351455072591",
+      "name": "CacheControlBox",
+      "properties": [
+        {
+          "id": "1:2599851189265327933",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7099187244950398252",
+          "name": "maxAge",
+          "type": 6
+        },
+        {
+          "id": "3:5702769110516356435",
+          "name": "privacy",
+          "type": 9
+        },
+        {
+          "id": "4:7140297276190788408",
+          "name": "noCache",
+          "type": 1
+        },
+        {
+          "id": "5:6236008016021119360",
+          "name": "noStore",
+          "type": 1
+        },
+        {
+          "id": "6:8067887915569753436",
+          "name": "other",
+          "type": 30
+        },
+        {
+          "id": "7:9036212564967380632",
+          "name": "maxStale",
+          "type": 6
+        },
+        {
+          "id": "8:7582759441923361814",
+          "name": "minFresh",
+          "type": 6
+        },
+        {
+          "id": "9:8877324351455072591",
+          "name": "mustRevalidate",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7757242034369518074",
+      "lastPropertyId": "14:9005972310128254576",
+      "name": "CacheResponseBox",
+      "properties": [
+        {
+          "id": "1:384164057980000480",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6030895417021694193",
+          "name": "key",
+          "type": 9
+        },
+        {
+          "id": "3:5558105826392194242",
+          "name": "content",
+          "type": 23
+        },
+        {
+          "id": "4:4611944764435271943",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "5:5861065848209580861",
+          "name": "eTag",
+          "type": 9
+        },
+        {
+          "id": "6:9121158123877573396",
+          "name": "expires",
+          "type": 10
+        },
+        {
+          "id": "7:1615133486041024916",
+          "name": "headers",
+          "type": 23
+        },
+        {
+          "id": "8:4135096318984637787",
+          "name": "lastModified",
+          "type": 9
+        },
+        {
+          "id": "9:3472500042536019877",
+          "name": "maxStale",
+          "type": 10
+        },
+        {
+          "id": "10:8773714994346131816",
+          "name": "responseDate",
+          "type": 10
+        },
+        {
+          "id": "11:8292870704907329162",
+          "name": "requestDate",
+          "type": 10
+        },
+        {
+          "id": "12:8983354669219989635",
+          "name": "url",
+          "type": 9
+        },
+        {
+          "id": "13:2408818801792969543",
+          "name": "priority",
+          "type": 6
+        },
+        {
+          "id": "14:9005972310128254576",
+          "name": "cacheControlId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:5988908979586754039",
+          "relationTarget": "CacheControlBox"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:7757242034369518074",
+  "lastIndexId": "1:5988908979586754039",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
