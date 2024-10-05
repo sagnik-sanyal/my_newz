@@ -31,30 +31,9 @@ final class ApiService {
     String endpoint, {
     Map<String, dynamic>? queryParams,
   }) async {
-    try {
-      final Response<JSON> response =
-          await dio.get<JSON>(endpoint, queryParameters: queryParams);
-      return Result.guard(() => response.data!);
-    } on DioException catch (e) {
-      _handleDioError(e);
-      rethrow;
-    }
-  }
-
-  // Error handling
-  void _handleDioError(DioException error) {
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-        log('Connection Timeout Exception');
-      case DioExceptionType.sendTimeout:
-        log('Send Timeout Exception');
-      case DioExceptionType.receiveTimeout:
-        log('Receive Timeout Exception');
-
-      case DioExceptionType.cancel:
-        log('Request was cancelled');
-      default:
-        log('Unknown Error: ${error.message}');
-    }
+    final Response<JSON> response =
+        await dio.get<JSON>(endpoint, queryParameters: queryParams);
+    log('GET $endpoint: ${response.realUri}');
+    return Result.guard(() => response.data!);
   }
 }

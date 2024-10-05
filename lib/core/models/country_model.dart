@@ -14,11 +14,11 @@ sealed class Country with _$Country {
 
   const Country._();
 
-  factory Country.india() {
+  factory Country.us() {
     return const Country(
-      name: 'India',
-      code: 'in',
-      flag: 'https://flagcdn.com/w320/in.png',
+      name: 'United States',
+      code: 'us',
+      flag: 'https://flagcdn.com/w320/us.png',
     );
   }
 
@@ -27,8 +27,11 @@ sealed class Country with _$Country {
 
   /// Default list of countries
   static List<Map<String, Object?>> defaults() {
-    return <Map<String, Object?>>[Country.india().toJson()];
+    return <Map<String, Object?>>[Country.us().toJson()];
   }
+
+  /// Check if the country matches the id
+  bool matchesId(Country id) => code == id.code;
 
   Map<String, Object?> toJson() => _$CountryToJson(this);
 }

@@ -40,7 +40,7 @@ class RemoteConfigService {
         return switch (jsonDecode(value.asString())) {
           final List<Object?> list =>
             list.cast<JSON>().map(Country.fromJson).toList(),
-          _ => <Country>[Country.india()],
+          _ => <Country>[Country.us()],
         };
       },
     );

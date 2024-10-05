@@ -56,10 +56,8 @@ class CountrySelector extends StatelessWidget {
                 child: _buildCountries(
                   state.maybeWhen(
                     data: (List<Country> data) => data,
-                    orElse: () => List<Country>.generate(
-                      5,
-                      (_) => Country.india(),
-                    ),
+                    orElse: () =>
+                        List<Country>.generate(5, (_) => Country.us()),
                   ),
                 ),
               ),
@@ -77,13 +75,18 @@ class CountrySelector extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final Country country = countries[index];
         return Selector<CountryNotifier, bool>(
-          selector: (_, CountryNotifier bloc) => bloc.state == country,
+          selector: (_, CountryNotifier bloc) => bloc.state.matchesId(country),
           builder: (_, bool selected, __) => ListTile(
             selected: selected,
             contentPadding: EdgeInsets.zero,
             trailing: selected ? const Icon(Icons.check) : null,
             leading: country.flag != null ? _buildFlag(country) : null,
-            title: AppText.medium(country.name),
+            title: AppText.medium(
+              country.name,
+              maxLines: 1,
+              fontWeight:
+                  selected ? FontWeightType.bold : FontWeightType.medium,
+            ),
             onTap: () => context
               ..read<CountryNotifier>().state = country
               ..pop<void>(),
@@ -98,7 +101,7 @@ class CountrySelector extends StatelessWidget {
     return CachedNetworkImage(
       cacheKey: country.code,
       imageUrl: country.flag!,
-      width: 35,
+      width: 45,
       height: 35,
       fit: BoxFit.cover,
       errorWidget: (_, __, ___) => const Icon(Icons.flag),

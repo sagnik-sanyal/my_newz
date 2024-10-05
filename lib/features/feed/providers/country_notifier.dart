@@ -8,7 +8,7 @@ import '../../../core/services/remote_config_service.dart';
 
 /// Notifier to handle country selection
 class CountryNotifier extends StateNotifier<Country> {
-  CountryNotifier() : super(Country.india()) {
+  CountryNotifier() : super(Country.us()) {
     _service = getIt.get<RemoteConfigService>();
     getCountries();
   }

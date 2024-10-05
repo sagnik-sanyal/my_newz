@@ -52,15 +52,15 @@ final class FeedNotifier
     state = const AsyncLoading<PaginatedResult<Article>>().copyWithPrevious(
       state,
     );
-    final int nextPage = prev.nextPage();
-    final GetArticlePayload payload =
-        GetArticlePayload(country: _country.code, page: nextPage);
-    final Result<PaginatedResult<Article>> result =
-        await _service.getHeadlines(payload);
+    final Result<PaginatedResult<Article>> result = await _service.getHeadlines(
+      GetArticlePayload(country: _country.code, page: prev.nextPage()),
+    );
     state = result.when(
       data: (PaginatedResult<Article> data) {
         return AsyncData<PaginatedResult<Article>>(
-          prev.merge(data.copyWith(currentPage: nextPage)),
+          prev.copyWith(
+            results: <Article>[...prev.results, ...data.results],
+          ),
         );
       },
       error: (AppAlert alert) => AsyncError<PaginatedResult<Article>>(

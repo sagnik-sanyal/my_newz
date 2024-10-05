@@ -62,7 +62,7 @@ class AppText extends StatelessWidget {
     String text, {
     Color? color,
     Key? key,
-    FontWeightType? fontWeight = FontWeightType.medium,
+    FontWeightType fontWeight = FontWeightType.medium,
     bool scalable = true,
     String? configKey,
     TextAlign? textAlign,
@@ -73,7 +73,7 @@ class AppText extends StatelessWidget {
       text,
       key: key,
       textStyle: TextStyle(
-        fontWeight: fontWeight?.type(),
+        fontWeight: fontWeight.type(),
         color: color,
         fontSize: fontSize,
       ),

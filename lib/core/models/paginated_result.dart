@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:equatable/equatable.dart';
 
 import '../../app/typedefs/typedefs.dart';
@@ -7,14 +5,13 @@ import '../../app/typedefs/typedefs.dart';
 final class PaginatedResult<T extends Object> with EquatableMixin {
   const PaginatedResult({
     required this.results,
-    this.currentPage = 1,
     this.totalResults = 0,
+    this.pageSize = 20,
   });
 
   factory PaginatedResult.fromJson(JSON json, T Function(JSON) fromJsonT) {
     return PaginatedResult<T>(
       totalResults: json['totalResults'] as int? ?? 0,
-      currentPage: json['currentPage'] as int? ?? 1,
       results: switch (json['articles']) {
         final List<Object?> list => list.cast<JSON>().map(fromJsonT).toList(),
         _ => <T>[],
@@ -23,8 +20,8 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
   }
 
   final int totalResults;
-  final int currentPage;
   final List<T> results;
+  final int pageSize;
 
   /// Whether more data can be loaded
   bool canLoadMore() => results.length < totalResults;
@@ -33,30 +30,16 @@ final class PaginatedResult<T extends Object> with EquatableMixin {
   bool isEmpty() => results.isEmpty;
 
   /// Next Page
-  int nextPage() => currentPage + 1;
+  int nextPage() => (results.length / pageSize).ceil() + 1;
 
   @override
   List<Object> get props => <Object>[totalResults, results];
 
   /// Copy the [PaginatedResult] with new values
-  PaginatedResult<T> copyWith({
-    int? totalItems,
-    List<T>? items,
-    int? currentPage,
-  }) {
+  PaginatedResult<T> copyWith({int? totalItems, List<T>? results}) {
     return PaginatedResult<T>(
       totalResults: totalItems ?? this.totalResults,
-      results: items ?? this.results,
-      currentPage: currentPage ?? this.currentPage,
-    );
-  }
-
-  /// Merge two [PaginatedResult] into one
-  PaginatedResult<T> merge(PaginatedResult<T> other) {
-    return PaginatedResult<T>(
-      totalResults: other.totalResults,
-      results: <T>[...results, ...other.results],
-      currentPage: max(currentPage, other.currentPage),
+      results: results ?? this.results,
     );
   }
 }

@@ -49,7 +49,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           onNotification: (ScrollEndNotification details) {
             final double maxExtent = _controller.position.maxScrollExtent;
             final double currentExtent = _controller.position.pixels;
-            if (maxExtent - currentExtent > 150) return true;
+            if (maxExtent - currentExtent > 200) return true;
             context.read<FeedNotifier>().loadMore();
             return true;
           },
@@ -114,12 +114,14 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
               children: <Widget>[
                 const SizedBox.square(
                   dimension: 20,
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator.adaptive(
+                    strokeWidth: 2,
+                  ),
                 ),
                 const SizedBox(width: 10),
-                Flexible(child: AppText.medium('Loading more...')),
+                Flexible(child: AppText.medium('Loading more articles...')),
               ],
-            ),
+            ).padding(const EdgeInsets.symmetric(vertical: 10)),
           );
         } else if (hasValue &&
             !state.requireValue.isEmpty() &&
@@ -127,7 +129,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
           return SliverToBoxAdapter(
             child: Center(
               child: AppText.medium('No more articles to load'),
-            ),
+            ).padding(const EdgeInsets.symmetric(vertical: 10)),
           );
         }
         return child!;
