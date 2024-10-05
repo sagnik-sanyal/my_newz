@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../app/constants/app_colors.dart';
 import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
-import '../provider/feed_notifier.dart';
+import '../providers/feed_notifier.dart';
 import '../widgets/feed_async_widget.dart';
 
 @immutable

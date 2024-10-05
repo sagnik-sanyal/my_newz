@@ -22,15 +22,11 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    try {
-      final UserCredential result = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return Result.guard(() => result.user!);
-    } catch (e, stk) {
-      return Result<User>.error(e.toString(), stk);
-    }
+    return Result.guardAsync(
+      () async => _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((UserCredential result) => result.user!),
+    );
   }
 
   /// Sign up with email and password
@@ -39,7 +35,7 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    try {
+    return Result.guardAsync(() async {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -50,14 +46,10 @@ class AuthService {
           .collection('users')
           .doc(user.uid)
           .set(<String, String>{'name': name, 'email': email});
-      return Result.guard(() => user);
-    } catch (e, stk) {
-      return Result<User>.error(e.toString(), stk);
-    }
+      return user;
+    });
   }
 
   /// Sign out the current user
-  Future<Result<void>> signOut() async {
-    return Result.guard(() async => _auth.signOut());
-  }
+  Future<Result<void>> signOut() async => Result.guardAsync(_auth.signOut);
 }

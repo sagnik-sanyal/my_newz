@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../app/constants/app_colors.dart';
 import '../../../app/constants/ui_constants.dart';
+import '../../../shared/extensions/context_ext.dart';
 import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
+import '../../../shared/widgets/loading_button.dart';
+import '../providers/auth_notifier.dart';
 import '../widgets/email_field.dart';
 import '../widgets/name_field.dart';
 import '../widgets/password_field.dart';
@@ -52,9 +56,22 @@ class SignupScreen extends StatelessWidget {
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Column(
             children: <Widget>[
-              Expanded(child: _buildFields()),
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        const NameField(controlName: 'name'),
+                        const EmailField(controlName: 'email'),
+                        const PasswordField(controlName: 'password'),
+                      ].addSpacing(25),
+                    ),
+                  ),
+                ),
+              ),
               _buildButton(),
-              _buildFooter().padding(const EdgeInsets.only(top: vPadding - 4)),
+              _buildFooter(context)
+                  .padding(const EdgeInsets.only(top: vPadding - 4)),
             ],
           ).padding(),
         ),
@@ -63,17 +80,19 @@ class SignupScreen extends StatelessWidget {
   }
 
   /// Builds the footer text
-  Text _buildFooter() {
-    return const Text.rich(
+  Text _buildFooter(BuildContext context) {
+    return Text.rich(
       TextSpan(
         text: 'Already have an account? ',
-        style: TextStyle(fontWeight: FontWeight.w400),
-        children: <TextSpan>[
-          TextSpan(
-            text: 'Login',
-            style: TextStyle(
-              color: AppColors.primary,
-              fontWeight: FontWeight.w700,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+        children: <WidgetSpan>[
+          WidgetSpan(
+            child: GestureDetector(
+              onTap: () => context.pop<void>(),
+              child: AppText.bold(
+                'Login',
+                color: AppColors.primary,
+              ),
             ),
           ),
         ],
@@ -84,23 +103,13 @@ class SignupScreen extends StatelessWidget {
   /// Builds the submit button
   ReactiveFormConsumer _buildButton() {
     return ReactiveFormConsumer(
-      child: const Text('Signup'),
-      builder: (_, FormGroup form, Widget? child) => ElevatedButton(
-        onPressed: form.valid ? () {} : null,
-        child: child,
-      ),
-    );
-  }
-
-  /// Builds the fields required for the form
-  SingleChildScrollView _buildFields() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const NameField(controlName: 'name'),
-          const EmailField(controlName: 'email'),
-          const PasswordField(controlName: 'password'),
-        ].addSpacing(25),
+      builder: (BuildContext cxt, FormGroup form, _) => LoadingButton(
+        isLoading:
+            cxt.select<AuthNotifier, bool>((AuthNotifier n) => n.isSigningUp),
+        onPressed: form.invalid
+            ? null
+            : () => cxt.read<AuthNotifier>().createUser(form.value),
+        child: const Text('Signup'),
       ),
     );
   }

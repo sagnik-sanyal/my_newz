@@ -9,7 +9,7 @@ import '../../../core/models/article_model.dart';
 import '../../../core/models/paginated_result.dart';
 import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
-import '../provider/feed_notifier.dart';
+import '../providers/feed_notifier.dart';
 import 'feed_item.dart';
 
 @immutable

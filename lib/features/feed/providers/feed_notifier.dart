@@ -1,4 +1,5 @@
 import '../../../core/async_value.dart';
+import '../../../core/models/app_alert_model.dart';
 import '../../../core/models/article_model.dart';
 import '../../../core/models/get_article_payload.dart';
 import '../../../core/models/paginated_result.dart';
@@ -33,7 +34,10 @@ final class FeedNotifier
         await _service.getHeadlines(payload);
     state = result.when(
       data: AsyncData.new,
-      error: AsyncError<PaginatedResult<Article>>.new,
+      error: (AppAlert alert) => AsyncError<PaginatedResult<Article>>(
+        alert,
+        alert.stackTrace ?? StackTrace.current,
+      ),
     );
   }
 

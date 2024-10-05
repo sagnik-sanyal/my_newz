@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import '../../../app/typedefs/typedefs.dart';
 import '../../result.dart';
+import 'error_interceptor.dart';
 
 final class ApiService {
   /// Create a new instance of [ApiService]
@@ -18,6 +19,7 @@ final class ApiService {
     dio.transformer = BackgroundTransformer();
     dio.interceptors.addAll(<Interceptor>[
       LogInterceptor(responseBody: true, requestBody: true),
+      const ErrorInterceptor(),
       // DioCacheInterceptor(options: ObjectBoxCacheStore().addOptions()),
     ]);
   }
