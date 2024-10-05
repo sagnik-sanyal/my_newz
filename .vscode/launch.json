@@ -5,10 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch development",
+      "name": "Launch dev",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_dev.dart",
+      "toolArgs": [
+        "--dart-define-from-file",
+        ".env.dev.json"
+      ],
       "args": [
         "--flavor",
         "development",
@@ -17,17 +21,25 @@
       ]
     },
     {
-      "name": "Launch staging",
+      "name": "Launch qa",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_qa.dart",
+      "toolArgs": [
+        "--dart-define-from-file",
+        ".env.qa.json"
+      ],
       "args": ["--flavor", "staging", "--target", "lib/main_qa.dart"]
     },
     {
-      "name": "Launch production",
+      "name": "Launch prod",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_prod.dart",
+      "toolArgs": [
+        "--dart-define-from-file",
+        ".env.prod.json"
+      ],
       "args": ["--flavor", "production", "--target", "lib/main_prod.dart"]
     }
   ]

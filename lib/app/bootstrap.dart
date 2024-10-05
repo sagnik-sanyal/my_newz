@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 
+import '../core/providers/global_provider.dart';
 import '../core/services/dependency_injection/di.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
@@ -11,5 +12,5 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   };
 
   await configureDI();
-  runApp(await builder());
+  runApp(GlobalProvider(child: await builder()));
 }

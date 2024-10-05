@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/models/article_model.dart';
 import '../../../shared/widgets/app_text.dart';
 
 @immutable
 class FeedItem extends StatelessWidget {
+  /// Creates [FeedItem] instance with [key]
   const FeedItem({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Article article = Provider.of<Article>(context);
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(

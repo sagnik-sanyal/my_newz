@@ -4,7 +4,7 @@ part 'gen/article_model.freezed.dart';
 part 'gen/article_model.g.dart';
 
 @freezed
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 sealed class Article with _$Article {
   const factory Article({
     required Source source,
@@ -12,26 +12,17 @@ sealed class Article with _$Article {
     String? title,
     String? description,
     String? url,
+    DateTime? publishedAt,
     String? urlToImage,
-    String? publishedAt,
     String? content,
   }) = _Article;
 
   factory Article.fromJson(Map<String, Object?> json) =>
       _$ArticleFromJson(json);
-
-  /// Convert a list of JSON objects to a list of Article objects
-  static List<Article> parseList(Object? json) {
-    return switch (json) {
-      final List<Object?> items =>
-        items.cast<Map<String, Object?>>().map(Article.fromJson).toList(),
-      _ => <Article>[],
-    };
-  }
 }
 
 @freezed
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 sealed class Source with _$Source {
   const factory Source({
     String? id,
@@ -42,6 +33,8 @@ sealed class Source with _$Source {
     String? language,
     String? country,
   }) = _Source;
+
+  const Source._();
 
   factory Source.fromJson(Map<String, Object?> json) => _$SourceFromJson(json);
 }

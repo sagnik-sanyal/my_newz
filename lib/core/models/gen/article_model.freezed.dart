@@ -21,8 +21,8 @@ mixin _$Article {
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
+  DateTime? get publishedAt => throw _privateConstructorUsedError;
   String? get urlToImage => throw _privateConstructorUsedError;
-  String? get publishedAt => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
 
   /// Create a copy of Article
@@ -42,8 +42,8 @@ abstract class $ArticleCopyWith<$Res> {
       String? title,
       String? description,
       String? url,
+      DateTime? publishedAt,
       String? urlToImage,
-      String? publishedAt,
       String? content});
 
   $SourceCopyWith<$Res> get source;
@@ -69,8 +69,8 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
     Object? title = freezed,
     Object? description = freezed,
     Object? url = freezed,
-    Object? urlToImage = freezed,
     Object? publishedAt = freezed,
+    Object? urlToImage = freezed,
     Object? content = freezed,
   }) {
     return _then(_value.copyWith(
@@ -94,13 +94,13 @@ class _$ArticleCopyWithImpl<$Res, $Val extends Article>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
-      urlToImage: freezed == urlToImage
-          ? _value.urlToImage
-          : urlToImage // ignore: cast_nullable_to_non_nullable
-              as String?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      urlToImage: freezed == urlToImage
+          ? _value.urlToImage
+          : urlToImage // ignore: cast_nullable_to_non_nullable
               as String?,
       content: freezed == content
           ? _value.content
@@ -133,8 +133,8 @@ abstract class _$$ArticleImplCopyWith<$Res> implements $ArticleCopyWith<$Res> {
       String? title,
       String? description,
       String? url,
+      DateTime? publishedAt,
       String? urlToImage,
-      String? publishedAt,
       String? content});
 
   @override
@@ -159,8 +159,8 @@ class __$$ArticleImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? description = freezed,
     Object? url = freezed,
-    Object? urlToImage = freezed,
     Object? publishedAt = freezed,
+    Object? urlToImage = freezed,
     Object? content = freezed,
   }) {
     return _then(_$ArticleImpl(
@@ -184,13 +184,13 @@ class __$$ArticleImplCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
-      urlToImage: freezed == urlToImage
-          ? _value.urlToImage
-          : urlToImage // ignore: cast_nullable_to_non_nullable
-              as String?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      urlToImage: freezed == urlToImage
+          ? _value.urlToImage
+          : urlToImage // ignore: cast_nullable_to_non_nullable
               as String?,
       content: freezed == content
           ? _value.content
@@ -209,8 +209,8 @@ class _$ArticleImpl implements _Article {
       this.title,
       this.description,
       this.url,
-      this.urlToImage,
       this.publishedAt,
+      this.urlToImage,
       this.content});
 
   @override
@@ -224,15 +224,15 @@ class _$ArticleImpl implements _Article {
   @override
   final String? url;
   @override
-  final String? urlToImage;
+  final DateTime? publishedAt;
   @override
-  final String? publishedAt;
+  final String? urlToImage;
   @override
   final String? content;
 
   @override
   String toString() {
-    return 'Article(source: $source, author: $author, title: $title, description: $description, url: $url, urlToImage: $urlToImage, publishedAt: $publishedAt, content: $content)';
+    return 'Article(source: $source, author: $author, title: $title, description: $description, url: $url, publishedAt: $publishedAt, urlToImage: $urlToImage, content: $content)';
   }
 
   @override
@@ -246,16 +246,16 @@ class _$ArticleImpl implements _Article {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.urlToImage, urlToImage) ||
-                other.urlToImage == urlToImage) &&
             (identical(other.publishedAt, publishedAt) ||
                 other.publishedAt == publishedAt) &&
+            (identical(other.urlToImage, urlToImage) ||
+                other.urlToImage == urlToImage) &&
             (identical(other.content, content) || other.content == content));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, source, author, title,
-      description, url, urlToImage, publishedAt, content);
+      description, url, publishedAt, urlToImage, content);
 
   /// Create a copy of Article
   /// with the given fields replaced by the non-null parameter values.
@@ -273,8 +273,8 @@ abstract class _Article implements Article {
       final String? title,
       final String? description,
       final String? url,
+      final DateTime? publishedAt,
       final String? urlToImage,
-      final String? publishedAt,
       final String? content}) = _$ArticleImpl;
 
   @override
@@ -288,9 +288,9 @@ abstract class _Article implements Article {
   @override
   String? get url;
   @override
-  String? get urlToImage;
+  DateTime? get publishedAt;
   @override
-  String? get publishedAt;
+  String? get urlToImage;
   @override
   String? get content;
 
@@ -462,7 +462,7 @@ class __$$SourceImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SourceImpl implements _Source {
+class _$SourceImpl extends _Source {
   const _$SourceImpl(
       {this.id,
       this.name,
@@ -470,7 +470,8 @@ class _$SourceImpl implements _Source {
       this.url,
       this.category,
       this.language,
-      this.country});
+      this.country})
+      : super._();
 
   @override
   final String? id;
@@ -522,7 +523,7 @@ class _$SourceImpl implements _Source {
       __$$SourceImplCopyWithImpl<_$SourceImpl>(this, _$identity);
 }
 
-abstract class _Source implements Source {
+abstract class _Source extends Source {
   const factory _Source(
       {final String? id,
       final String? name,
@@ -531,6 +532,7 @@ abstract class _Source implements Source {
       final String? category,
       final String? language,
       final String? country}) = _$SourceImpl;
+  const _Source._() : super._();
 
   @override
   String? get id;

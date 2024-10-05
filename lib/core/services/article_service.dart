@@ -1,7 +1,8 @@
 import '../../app/typedefs/typedefs.dart';
 import '../models/article_model.dart';
 import '../models/get_article_payload.dart';
-import '../states/result.dart';
+import '../models/paginated_result.dart';
+import '../result.dart';
 import 'dio/api_service.dart';
 
 class ArticleService {
@@ -11,11 +12,16 @@ class ArticleService {
 
   final ApiService _service;
 
-  FutureResult<List<Article>> getHeadlines(GetArticlePayload payload) async {
+  /// Get headlines
+  FutureResult<PaginatedResult<Article>> getHeadlines(
+    GetArticlePayload payload,
+  ) async {
     final Result<JSON> response =
         await _service.get('top-headlines', queryParams: payload.toJson());
     return response.when(
-      data: (JSON data) => Result.guard(() => Article.parseList(data)),
+      data: (JSON data) => Result.guard(
+        () => PaginatedResult<Article>.fromJson(data, Article.fromJson),
+      ),
       error: Result.error,
     );
   }

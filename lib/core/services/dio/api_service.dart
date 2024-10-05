@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 import '../../../app/typedefs/typedefs.dart';
-import '../../states/result.dart';
-import '../objectbox/cache_store.dart';
+import '../../result.dart';
 
 final class ApiService {
   /// Create a new instance of [ApiService]
@@ -16,11 +14,11 @@ final class ApiService {
     dio.options.baseUrl = baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 5);
     dio.options.receiveTimeout = const Duration(seconds: 3);
-    dio.options.headers = <String, String>{'Authorization': 'Bearer $apiKey'};
+    dio.options.headers = <String, String>{'X-Api-Key': apiKey};
     dio.transformer = BackgroundTransformer();
     dio.interceptors.addAll(<Interceptor>[
       LogInterceptor(responseBody: true),
-      DioCacheInterceptor(options: ObjectBoxCacheStore().addOptions()),
+      // DioCacheInterceptor(options: ObjectBoxCacheStore().addOptions()),
     ]);
   }
 

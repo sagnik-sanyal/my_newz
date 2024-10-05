@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/news_feed/screens/news_feed_screen.dart';
+import '../features/feed/screens/news_feed_screen.dart';
 import 'theme/app_theme.dart';
 
 @immutable
