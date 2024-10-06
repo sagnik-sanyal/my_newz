@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 import '../../../app/typedefs/typedefs.dart';
 import '../../result.dart';
+import '../objectbox/cache_store.dart';
 import 'error_interceptor.dart';
 
 final class ApiService {
@@ -20,7 +22,7 @@ final class ApiService {
     dio.interceptors.addAll(<Interceptor>[
       LogInterceptor(responseBody: true, requestBody: true),
       const ErrorInterceptor(),
-      // DioCacheInterceptor(options: ObjectBoxCacheStore().addOptions()),
+      DioCacheInterceptor(options: ObjectBoxCacheStore().addOptions()),
     ]);
   }
 
@@ -31,9 +33,11 @@ final class ApiService {
     String endpoint, {
     Map<String, dynamic>? queryParams,
   }) async {
-    final Response<JSON> response =
-        await dio.get<JSON>(endpoint, queryParameters: queryParams);
-    log('GET $endpoint: ${response.realUri}');
-    return Result.guard(() => response.data!);
+    return Result.guardAsync(() async {
+      final Response<JSON> response =
+          await dio.get<JSON>(endpoint, queryParameters: queryParams);
+      log('GET $endpoint: ${response.realUri}');
+      return response.data!;
+    });
   }
 }

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../app/constants/app_colors.dart';
 import '../../../app/constants/ui_constants.dart';
 import '../../../core/async_value.dart';
 import '../../../core/models/country_model.dart';
 import '../../../shared/extensions/context_ext.dart';
+import '../../../shared/extensions/widget_ext.dart';
 import '../../../shared/widgets/app_text.dart';
 import '../providers/country_notifier.dart';
 
@@ -35,34 +37,36 @@ class CountrySelector extends StatelessWidget {
         ignoreContainers: true,
         enableSwitchAnimation: true,
         enabled: state.isLoading,
-        child: Padding(
-          padding: const EdgeInsets.all(vPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: AppText.bold('Select your country', maxLines: 1),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close_rounded),
-                    onPressed: () => context.pop<void>(),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: AppText.bold('Select your country', maxLines: 1),
+                ),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () => context.pop<void>(),
+                ),
+              ],
+            ).padding(const EdgeInsets.all(hPadding)),
+            Expanded(
+              child: Material(
                 child: _buildCountries(
                   state.maybeWhen(
                     data: (List<Country> data) => data,
-                    orElse: () =>
-                        List<Country>.generate(5, (_) => Country.us()),
+                    orElse: () => List<Country>.generate(
+                      5,
+                      (_) => Country.us(),
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -75,11 +79,17 @@ class CountrySelector extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final Country country = countries[index];
         return Selector<CountryNotifier, bool>(
-          selector: (_, CountryNotifier bloc) => bloc.state.matchesId(country),
+          selector: (_, CountryNotifier bloc) => bloc.state.matchID(country),
           builder: (_, bool selected, __) => ListTile(
             selected: selected,
-            contentPadding: EdgeInsets.zero,
-            trailing: selected ? const Icon(Icons.check) : null,
+            contentPadding: const EdgeInsets.symmetric(horizontal: hPadding),
+            selectedTileColor: AppColors.primary.withOpacity(0.1),
+            trailing: selected
+                ? const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(Icons.check),
+                  )
+                : null,
             leading: country.flag != null ? _buildFlag(country) : null,
             title: AppText.medium(
               country.name,

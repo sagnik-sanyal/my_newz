@@ -31,7 +31,7 @@ sealed class Country with _$Country {
   }
 
   /// Check if the country matches the id
-  bool matchesId(Country id) => code == id.code;
+  bool matchID(Country id) => code == id.code;
 
   Map<String, Object?> toJson() => _$CountryToJson(this);
 }

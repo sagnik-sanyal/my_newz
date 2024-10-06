@@ -5,6 +5,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../app/constants/assets.dart';
 import '../../../core/async_value.dart';
+import '../../../core/models/app_alert_model.dart';
 import '../../../core/models/article_model.dart';
 import '../../../core/models/paginated_result.dart';
 import '../../../shared/extensions/widget_ext.dart';
@@ -73,13 +74,29 @@ class FeedAsyncWidget extends StatelessWidget {
   }
 
   /// When error occurs
-  Widget _errorBuilder(Object error, StackTrace? stackTrace) {
-    return SliverToBoxAdapter(
-      child: Center(
-        child: Text(
-          'Error: $error',
-          style: const TextStyle(color: Colors.red),
-        ),
+  SliverFillRemaining _errorBuilder(Object error, StackTrace? stackTrace) {
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: Colors.red,
+            size: 100,
+          ),
+          AppText.bold(
+            "Oops, we've encountered an error",
+            maxLines: 3,
+            fontSize: 18,
+            textAlign: TextAlign.center,
+          ),
+          AppText.regular(
+            error is AppAlert ? error.message : 'Please try again later',
+            maxLines: 1,
+            fontSize: 16,
+          ),
+        ],
       ),
     );
   }

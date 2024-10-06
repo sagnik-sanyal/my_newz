@@ -25,6 +25,7 @@ final class FeedNotifier
 
   /// Update Country
   void updateCountry(Country value) {
+    if (_country == value) return;
     _country = value;
     init(refresh: true);
     notifyListeners();
